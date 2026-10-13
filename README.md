@@ -37,10 +37,10 @@ All numbers are produced by `python src/analyze.py`; see `results/analysis_outpu
   up to about 0.025 cannot be ruled out with 5 splits). Both groups lose a little
   recall (women's recall at epsilon 0.5: -0.023, CI -0.039 to -0.007).
 - Original split only (exploratory): the gap widens from 0.146 to 0.248 at epsilon 0.1.
-  Clipping without noise raises the matched gap only to about 0.158, and the
-  widening holds at clipping norms 0.1, 1.0 and 5.0, which suggests added noise
-  accounts for most of it. This was not repeated on other splits.
-
+  Clipping without noise raises the matched gap only to about 0.158; with noise, the
+  widening appears at clipping norms 0.1, 1.0 and 5.0 (largest at 5.0). Because DP-SGD
+  noise scales with the clipping bound, these runs do not separate the effect of noise
+  from that of clipping, and the mechanism is untested. This was not repeated on other splits.
 ![TPR gap change](figures/tpr_gap_change_multisplit.png)
 
 ## Limitations
