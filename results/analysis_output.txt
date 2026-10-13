@@ -1,0 +1,67 @@
+Non-private TPR gap by split: [0.164, 0.087, 0.106, 0.137, 0.155] | mean 0.13 | sd 0.032
+
+MULTI-SPLIT: paired change vs non-private (mean over seeds within split; CI across 5 splits)
+tpr_gap          eps=0.1  mean +0.067  CI (+0.041, +0.093)  per split [0.059, 0.064, 0.093, 0.079, 0.038]
+tpr_gap          eps=0.5  mean +0.008  CI (-0.009, +0.026)  per split [-0.003, 0.007, 0.025, 0.02, -0.007]
+tpr_gap          eps=1.0  mean +0.005  CI (-0.012, +0.023)  per split [-0.004, 0.005, 0.022, 0.016, -0.012]
+tpr_gap          eps=8.0  mean +0.004  CI (-0.015, +0.023)  per split [-0.005, 0.009, 0.022, 0.013, -0.017]
+
+tpr_gap_matched  eps=0.1  mean +0.064  CI (+0.043, +0.085)  per split [0.057, 0.062, 0.087, 0.072, 0.042]
+tpr_gap_matched  eps=0.5  mean +0.009  CI (-0.005, +0.023)  per split [-0.002, 0.009, 0.024, 0.016, -0.001]
+tpr_gap_matched  eps=1.0  mean +0.007  CI (-0.008, +0.022)  per split [-0.004, 0.009, 0.02, 0.017, -0.006]
+tpr_gap_matched  eps=8.0  mean +0.005  CI (-0.011, +0.020)  per split [-0.005, 0.011, 0.016, 0.013, -0.012]
+
+tpr_M            eps=0.1  mean -0.037  CI (-0.053, -0.021)  per split [-0.045, -0.027, -0.024, -0.035, -0.055]
+tpr_M            eps=0.5  mean -0.015  CI (-0.030, +0.001)  per split [-0.016, 0.001, -0.011, -0.013, -0.034]
+tpr_M            eps=1.0  mean -0.011  CI (-0.028, +0.006)  per split [-0.009, 0.006, -0.01, -0.009, -0.033]
+tpr_M            eps=8.0  mean -0.007  CI (-0.026, +0.012)  per split [-0.004, 0.012, -0.009, -0.004, -0.031]
+
+tpr_F            eps=0.1  mean -0.104  CI (-0.118, -0.090)  per split [-0.104, -0.092, -0.117, -0.114, -0.093]
+tpr_F            eps=0.5  mean -0.023  CI (-0.039, -0.007)  per split [-0.013, -0.006, -0.036, -0.034, -0.027]
+tpr_F            eps=1.0  mean -0.017  CI (-0.034, +0.001)  per split [-0.006, 0.001, -0.032, -0.025, -0.021]
+tpr_F            eps=8.0  mean -0.011  CI (-0.029, +0.006)  per split [0.002, 0.003, -0.031, -0.016, -0.015]
+
+accuracy         eps=0.1  mean -0.008  CI (-0.010, -0.006)  per split [-0.011, -0.008, -0.007, -0.007, -0.006]
+accuracy         eps=0.5  mean -0.001  CI (-0.002, -0.000)  per split [-0.002, -0.001, -0.001, -0.001, 0.0]
+accuracy         eps=1.0  mean -0.001  CI (-0.001, +0.000)  per split [-0.001, -0.0, -0.001, -0.0, -0.0]
+accuracy         eps=8.0  mean -0.000  CI (-0.001, +0.000)  per split [-0.0, 0.0, -0.001, 0.0, -0.0]
+
+auc_M            eps=0.1  mean -0.011  CI (-0.013, -0.010)  per split [-0.011, -0.013, -0.011, -0.01, -0.011]
+auc_M            eps=0.5  mean -0.004  CI (-0.004, -0.003)  per split [-0.003, -0.004, -0.004, -0.003, -0.004]
+auc_M            eps=1.0  mean -0.003  CI (-0.003, -0.002)  per split [-0.003, -0.003, -0.003, -0.002, -0.003]
+auc_M            eps=8.0  mean -0.002  CI (-0.003, -0.002)  per split [-0.002, -0.002, -0.003, -0.002, -0.003]
+
+auc_F            eps=0.1  mean -0.012  CI (-0.014, -0.009)  per split [-0.011, -0.013, -0.009, -0.013, -0.011]
+auc_F            eps=0.5  mean -0.003  CI (-0.004, -0.002)  per split [-0.003, -0.004, -0.002, -0.003, -0.003]
+auc_F            eps=1.0  mean -0.002  CI (-0.003, -0.001)  per split [-0.003, -0.003, -0.001, -0.002, -0.002]
+auc_F            eps=8.0  mean -0.002  CI (-0.002, -0.001)  per split [-0.002, -0.002, -0.001, -0.001, -0.002]
+
+ORIGINAL SPLIT (exploratory), mean over 10 seeds:
+     accuracy  tpr_M  tpr_F  tpr_gap
+eps                                 
+0.1     0.841  0.581  0.333    0.248
+0.5     0.851  0.609  0.444    0.164
+1.0     0.852  0.613  0.455    0.158
+4.0     0.852  0.616  0.461    0.155
+8.0     0.852  0.617  0.462    0.155
+inf     0.852  0.615  0.468    0.146
+eps=0.1  change in TPR gap +0.101  CI (+0.080, +0.123)
+eps=0.5  change in TPR gap +0.018  CI (+0.006, +0.030)
+eps=1.0  change in TPR gap +0.012  CI (+0.002, +0.022)
+eps=4.0  change in TPR gap +0.009  CI (-0.000, +0.018)
+eps=8.0  change in TPR gap +0.009  CI (+0.000, +0.017)
+epsilon spent / target: min 0.958, max 0.999 (ratio)
+
+wrote figures/tpr_gap_change_multisplit.png
+
+CLIP EXPERIMENTS (original split, 10 seeds; matched-selection TPR gap)
+                       gap  gap_sd  scoreM  scoreF   aucM   aucF
+kind      clip                                                  
+baseline  NaN        0.146   0.010   0.304   0.105  0.880  0.929
+clip_only 0.1        0.158   0.008   0.240   0.064  0.873  0.925
+          1.0        0.158   0.010   0.279   0.084  0.878  0.929
+          5.0        0.145   0.011   0.305   0.105  0.880  0.928
+          1000000.0  0.145   0.010   0.305   0.105  0.880  0.928
+dp_eps0.1 0.1        0.258   0.018   0.225   0.045  0.864  0.909
+          1.0        0.239   0.030   0.275   0.072  0.867  0.918
+          5.0        0.292   0.052   0.307   0.103  0.860  0.911
