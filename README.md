@@ -41,6 +41,7 @@ All numbers are produced by `python src/analyze.py`; see `results/analysis_outpu
   widening appears at clipping norms 0.1, 1.0 and 5.0 (largest at 5.0). Because DP-SGD
   noise scales with the clipping bound, these runs do not separate the effect of noise
   from that of clipping, and the mechanism is untested. This was not repeated on other splits.
+
 ![TPR gap change](figures/tpr_gap_change_multisplit.png)
 
 ## Limitations
