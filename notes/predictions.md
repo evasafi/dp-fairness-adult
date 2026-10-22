@@ -58,3 +58,18 @@ the features (planned as a separate ablation, with its own predictions).
 
 ## Deviations
 (none yet)
+
+## Part 2b predictions (true negatives; written before running)
+Quantity: mean logit shift among TRUE NEGATIVES by group (DP minus
+non-private), epsilon 0.1, 5 splits x 3 seeds, same pairing as P1.
+
+- P4 (group-wide offset): women's true-negative shift is within 0.15 of
+  their true-positive shift (-0.665), i.e. between about -0.82 and -0.52,
+  with the 95% interval across splits excluding zero. Predicted because
+  within-group AUC fell about equally for men and women.
+- P5 (positive-specific): if women's true-negative shift is above -0.20
+  (closer to zero), the shift is specific to positives and the AUC
+  argument needs rethinking.
+- Anything between -0.52 and -0.20 is reported as mixed, not as support
+  for either.
+- The thresholds are arbitrary choices, set before running. Exploratory.
