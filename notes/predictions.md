@@ -89,3 +89,24 @@ Quantity: standard deviation of logits within each group x class cell
   within-group AUC fell by about the same amount in both groups.
 - Thresholds (1.2, 0.8, 0.1) are arbitrary choices, set before running.
   Exploratory.
+
+  ## Part 3 predictions (noise vs clipping; written before running)
+Design: clipping norm 1.0; noise multiplier = k x sigma*, k in {0, 0.25,
+0.5, 1.0}, where sigma* is the multiplier giving epsilon 0.1. 5 splits x
+3 seeds, paired against non-private. Quantity: change in the TPR gap at
+threshold 0.5 (DP - non-private), averaged over seeds, then across the
+5 splits. Epsilon is not matched across arms.
+
+- P8 (clipping alone contributes little): at k = 0 the mean gap change is
+  below 0.02. Above 0.04 means clipping contributes substantially.
+  Between 0.02 and 0.04 is reported as inconclusive. With a CI half-width
+  of about 0.026, a mean below 0.02 is weak evidence, not proof, that
+  clipping contributes little.
+- P9 (dose-response): mean gap change is non-decreasing across
+  k = 0, 0.25, 0.5, 1.0, and the k = 1.0 mean exceeds the k = 0 mean by
+  more than 0.04.
+- P10 (sanity): the k = 1.0 arm reproduces part 1 (+0.067, CI 0.041 to
+  0.093). If it does not, the arms are not comparable and nothing else is
+  interpreted.
+- Thresholds (0.02, 0.04) are arbitrary choices, set before running.
+  Exploratory.
