@@ -10,8 +10,6 @@ it changed no threshold and no direction. Both commits precede the results
 commit 31c076e. The clarifications were written after the script was
 drafted and before it was run.
 
-
-
 ## Results
 - P1 met. Among true positives, mean logit change (DP - non-private):
   men -0.048, women -0.665. Difference -0.617 (CI -0.655 to -0.579),
