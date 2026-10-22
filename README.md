@@ -82,5 +82,18 @@ seeds); other hardware or library versions were not tested.
 order, so the scripts are the reproducible version.
 
 ## Follow-up
-Exploratory mechanism checks (with predictions committed before running)
-are in notes/predictions.md and notes/mechanism_results.md.
+Exploratory mechanism checks, with predictions committed before running,
+are in notes/predictions.md and notes/mechanism_results.md. Summary:
+- At epsilon 0.1, women's true positives shift down much more than men's
+  in logit terms; per-group thresholds remove nearly all of the gap
+  widening (a diagnostic, since it uses sex at decision time).
+- Several simple explanations failed their pre-specified tests: a
+  direct distortion of the sex weight, a women-only score offset, and a
+  uniform change in score spread.
+- Varying the noise multiplier at clipping norm 1.0 (5 splits x 3 seeds):
+  the gap change grows with noise (+0.001 at no noise to +0.067 at the
+  epsilon 0.1 level), and clipping alone is not detectably responsible,
+  though the interval at no noise reaches +0.020.
+- Not shown: any clipping-noise interaction (clipping norm was not varied
+  in this design), other epsilons, models or datasets, or why noise
+  hurts women's true positives more. These checks are exploratory.
