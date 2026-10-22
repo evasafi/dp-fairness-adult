@@ -1,0 +1,22 @@
+split 1 done
+split 2 done
+split 3 done
+split 4 done
+split 5 done
+
+SANITY (should match part 1: +0.067, CI 0.041 to 0.093): 0.067 (0.041, 0.093) [0.059, 0.064, 0.093, 0.079, 0.038]
+epsilon_spent range: 0.096 0.096
+
+P1: mean logit shift among true positives (DP - non-private)
+  men: -0.048  women: -0.665
+  (women - men) per split: [-0.640999972820282, -0.656000018119812, -0.5879999995231628, -0.6129999756813049, -0.5889999866485596]  mean -0.617  CI (-0.655, -0.579)
+  P1: MET
+
+P2: recall-gap change with group-specific thresholds
+  per split: [0.015, 0.006, 0.013, 0.009, -0.005]  mean 0.008  CI (-0.002, 0.017)
+  P2: MET
+
+P3: change in (w_Male - w_Female), DP - non-private
+  non-private mean sexdiff: 0.618  DP mean sexdiff: 0.301
+  change: mean -0.317  positive in 2 of 15  pooled within-split sd 0.124
+  P3: NOT MET
