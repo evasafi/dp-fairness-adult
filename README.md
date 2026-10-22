@@ -80,3 +80,7 @@ seeds); other hardware or library versions were not tested.
 
 `notebooks/PrivacyPreservingML.ipynb` is the exploratory record. It was run out of
 order, so the scripts are the reproducible version.
+
+## Follow-up
+Exploratory mechanism checks (with predictions committed before running)
+are in notes/predictions.md and notes/mechanism_results.md.
