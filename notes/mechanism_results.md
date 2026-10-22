@@ -60,3 +60,27 @@ than women's. Mean logits mix offset and scale; this was not separated.
 
 ## Not shown
 The cause; whether the DP model's score scale changed; other epsilons.
+
+## Part 2c: logit scale (exploratory)
+
+Predictions: notes/predictions.md, commit 5f9eed6, before the script was
+written or run. Script: src/run_scale.py. Output: results/scale_output.txt.
+Sanity check reproduces part 2a P1 (men -0.048, women -0.665).
+
+- SD ratio (DP / non-private) by cell: positives men 1.027, women 0.998;
+  negatives men 1.357 (CI 1.277 to 1.438), women 1.234 (CI 1.185 to 1.283).
+- P6 not met (mixed): spread expanded for negatives only.
+- d' change (DP - non-private): men +0.184 (CI 0.145 to 0.224), women
+  +0.124 (CI 0.073 to 0.175); rose in all splits for both groups.
+- P7 not met: predicted a fall; d' rose. The difference between groups
+  (0.06) was within the stated 0.1.
+
+## Reading (exploratory)
+The DP model's negatives are lower and more spread out; positives change
+little in spread. d' rising while AUC fell slightly means d' is not a
+reliable separation measure here (unequal variances, non-normal scores).
+The mechanism is still not identified.
+
+## Pre-specified predictions that failed
+P3, P4/P5 (outside both bands), P6, P7. The simple offset and scale
+stories did not hold.
