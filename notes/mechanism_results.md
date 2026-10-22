@@ -84,3 +84,28 @@ The mechanism is still not identified.
 ## Pre-specified predictions that failed
 P3, P4/P5 (outside both bands), P6, P7. The simple offset and scale
 stories did not hold.
+
+## Part 3: noise vs clipping (exploratory)
+
+Predictions: notes/predictions.md, commit c3d1347, before the script was
+written or run. Script: src/run_noise.py. Output: results/noise_output.txt.
+Design: clipping norm 1.0; noise multiplier k x sigma* (sigma* = 13.75,
+the multiplier giving epsilon 0.1), k in {0, 0.25, 0.5, 1.0}; 5 splits x
+3 seeds, paired against non-private. Epsilon not matched across arms.
+Reference arm (part 1 code path) reproduces +0.067, CI 0.041 to 0.093.
+
+- Gap change (DP - non-private), mean across splits (95% CI):
+  k=0: +0.001 (-0.019 to 0.020); k=0.25: +0.011 (-0.007 to 0.028);
+  k=0.5: +0.032 (0.009 to 0.055); k=1.0: +0.067 (0.041 to 0.093).
+- P8 met (k=0 below 0.02). P9 met (non-decreasing; k=1 minus k=0 = 0.066).
+  P10 met (sanity).
+
+## Reading (exploratory)
+The widening grows with the amount of noise and is not detectably
+produced by clipping alone at norm 1.0. The k=0 interval reaches +0.020,
+so a small clipping effect is not excluded.
+
+## Not shown
+Clipping-noise interaction (clipping norm was not varied here); behavior
+at other epsilons, models or datasets; group size versus base rate; why
+noise hurts women's true positives more.

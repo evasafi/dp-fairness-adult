@@ -1,0 +1,20 @@
+split 1 done
+split 2 done
+split 3 done
+split 4 done
+split 5 done
+
+sigma* (noise multiplier for epsilon 0.1): 13.75 13.75
+epsilon_spent range: 0.096 0.096
+
+REFERENCE arm (part 1 code path; should be +0.067, CI 0.041 to 0.093): 0.067 (0.041, 0.093) [0.059, 0.064, 0.093, 0.079, 0.038]
+
+Gap change (DP - non-private) by noise level k x sigma*
+  k=0.0: mean 0.001 CI (-0.019, 0.02) per split [-0.017, 0.005, 0.007, 0.022, -0.013]
+  k=0.25: mean 0.011 CI (-0.007, 0.028) per split [-0.001, 0.01, 0.027, 0.023, -0.005]
+  k=0.5: mean 0.032 CI (0.009, 0.055) per split [0.029, 0.032, 0.05, 0.046, 0.003]
+  k=1.0: mean 0.067 CI (0.041, 0.093) per split [0.059, 0.064, 0.093, 0.079, 0.038]
+
+P10 (sanity, k=1.0 arm in part 1 CI 0.041 to 0.093): MET
+P8 (k=0 gap change): 0.001 MET
+P9 (non-decreasing: True ; k=1 minus k=0 = 0.066 ): MET
