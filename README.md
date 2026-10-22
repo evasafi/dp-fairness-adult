@@ -33,14 +33,14 @@ All numbers are produced by `python src/analyze.py`; see `results/analysis_outpu
   selection rate. Women's recall falls by 0.104 (CI -0.118 to -0.090), men's by 0.037
   (CI -0.053 to -0.021). Accuracy falls by 0.008; within-group AUC falls by 0.011
   (men) and 0.012 (women).
-- Epsilon 0.5 to 8: no detectable change in the gap (intervals include zero; effects
-  up to about 0.025 cannot be ruled out with 5 splits). Both groups lose a little
-  recall (women's recall at epsilon 0.5: -0.023, CI -0.039 to -0.007).
-- Original split only (exploratory): the gap widens from 0.146 to 0.248 at epsilon 0.1.
-  Clipping without noise raises the matched gap only to about 0.158; with noise, the
+- Epsilon 0.5, 1 and 8 (epsilon 4 was run on the original split only): no detectable
+  change in the gap (intervals include zero; effects up to about 0.025 cannot be ruled
+  out with 5 splits). Both groups lose a little recall (women's recall at epsilon 0.5:
+  -0.023, CI -0.039 to -0.007).- Original split only (exploratory): the gap widens from   0.146 to 0.248 at epsilon 0.1.
+- Clipping without noise raises the matched gap only to about 0.158; with noise, the
   widening appears at clipping norms 0.1, 1.0 and 5.0 (largest at 5.0). Because DP-SGD
   noise scales with the clipping bound, these runs do not separate the effect of noise
-  from that of clipping, and the mechanism is untested. This was not repeated on other splits.
+  from that of clipping, and the mechanism is untested. This was not repeated on other   splits.
 
 ![TPR gap change](figures/tpr_gap_change_multisplit.png)
 
@@ -53,7 +53,10 @@ All numbers are produced by `python src/analyze.py`; see `results/analysis_outpu
 - The DP guarantee covers only the training loop: imputation, scaling and
   one-hot encoding were fitted on the training data without privacy.
 - Intervals reflect variation across training seeds and splits, not across datasets.
-  With 5 splits they are wide.
+  The five splits are random resamples of the same 48,842 rows, so their test sets
+  overlap (about 30% of any two test sets) and the splits are not independent; the
+  across-split intervals are therefore probably somewhat too narrow, even though
+  with 5 splits they are already wide.
 - Mechanism is not identified: this study does not explain why noise hurts women's
   recall more.
 - Achieved epsilon was 0.958 to 0.999 of the target in all private sweep runs.
