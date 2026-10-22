@@ -35,3 +35,28 @@ A direct distortion of the sex weight is not the explanation.
 ## Caveats
 Exploratory follow-up. The five splits overlap, so intervals are probably
 somewhat narrow. P3 rests on 15 runs.
+
+## Part 2b: true negatives (exploratory)
+
+Predictions: notes/predictions.md, commit ab0074f, before the script was
+written or run. Script: src/run_negatives.py. Output:
+results/negatives_output.txt. Sanity check reproduces part 2a P1
+(men -0.048, women -0.665).
+
+- Mean logit shift among true negatives (DP - non-private): men -1.051
+  (CI -1.214 to -0.887), women -1.220 (CI -1.295 to -1.145).
+- P4 not met: women's negatives shifted far more than their positives
+  (-0.665), not within 0.15 of it.
+- P5 not met: women's negatives did not stay near zero.
+- Verdict: outside both pre-specified bands. The prediction framework
+  assumed a single group-wide offset and was too narrow.
+- Not pre-specified: relative to their own negatives, women's positives
+  moved up by 0.555 (CI 0.483 to 0.626); men's by about 1.0.
+
+## Reading (exploratory)
+The shift is not a women-specific offset. Negatives fell by over a logit
+in both groups; positives fell less, and men's positives fell much less
+than women's. Mean logits mix offset and scale; this was not separated.
+
+## Not shown
+The cause; whether the DP model's score scale changed; other epsilons.

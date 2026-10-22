@@ -1,0 +1,17 @@
+split 1 done
+split 2 done
+split 3 done
+split 4 done
+split 5 done
+
+SANITY (should match part 2a P1: men -0.048, women -0.665): -0.048 -0.665
+epsilon_spent range: 0.096 0.096
+
+True-negative logit shift (DP - non-private)
+  shift_neg_M mean -1.051 CI (-1.214, -0.887) per split [-1.1390000581741333, -1.1039999723434448, -0.8640000224113464, -1.1799999475479126, -0.9660000205039978]
+  shift_neg_F mean -1.22 CI (-1.295, -1.145) per split [-1.2710000276565552, -1.2510000467300415, -1.1399999856948853, -1.2660000324249268, -1.1720000505447388]
+
+Context, not pre-specified: women's positive shift minus negative shift
+  mean 0.555 CI (0.483, 0.626)
+
+Verdict from women's true-negative shift: OUTSIDE both bands (more negative than -0.82)
