@@ -73,3 +73,19 @@ non-private), epsilon 0.1, 5 splits x 3 seeds, same pairing as P1.
 - Anything between -0.52 and -0.20 is reported as mixed, not as support
   for either.
 - The thresholds are arbitrary choices, set before running. Exploratory.
+
+## Part 2c predictions (logit scale; written before running)
+Quantity: standard deviation of logits within each group x class cell
+(men/women x positives/negatives), non-private vs DP, epsilon 0.1,
+5 splits x 3 seeds, same pairing as P1.
+
+- P6 (scale expansion): the ratio SD_DP / SD_NP is above 1.2 in all four
+  cells, with the 95% interval across splits excluding 1. Ratios between
+  0.8 and 1.2 in most cells are reported as "scale about unchanged";
+  ratios below 0.8 as "compression". Anything mixed is reported as mixed.
+- P7 (separation in SD units): d' = (mean positive logit - mean negative
+  logit) / pooled within-class SD falls under DP for both groups, and the
+  fall differs between men and women by less than 0.1. Predicted because
+  within-group AUC fell by about the same amount in both groups.
+- Thresholds (1.2, 0.8, 0.1) are arbitrary choices, set before running.
+  Exploratory.
