@@ -46,5 +46,4 @@ interact (clipping norm was not varied in part 3). Whether any of this holds
 on other datasets, models, attributes or epsilons.
 
 ## Reproduce
-See README.md. Scripts: src/run_sweep.py, run_multisplit.py, run_clip.py,
-run_mechanism.py, run_negatives.py, run_scale.py, run_noise.py.
+See README.md. Scripts: src/run_sweep.py, run_multisplit.py, run_clip.py, analyze.py (part 1 numbers), run_mechanism.py, run_negatives.py, run_scale.py, run_noise.py.
