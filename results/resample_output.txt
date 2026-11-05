@@ -1,0 +1,30 @@
+Availability check passed for all 5 splits and 6 arms.
+
+Training composition, split 1:
+  Ref {'FP': 436, 'FN': 3548, 'MP': 2435, 'MN': 5581} | women's share 0.332 | women's rate 0.109 | men's rate 0.304
+  A1 {'FP': 197, 'FN': 1603, 'MP': 3099, 'MN': 7101} | women's share 0.15 | women's rate 0.109 | men's rate 0.304
+  A2 {'FP': 657, 'FN': 5343, 'MP': 1823, 'MN': 4177} | women's share 0.5 | women's rate 0.11 | men's rate 0.304
+  B1 {'FP': 797, 'FN': 3187, 'MP': 2435, 'MN': 5581} | women's share 0.332 | women's rate 0.2 | men's rate 0.304
+  B2 {'FP': 996, 'FN': 2988, 'MP': 2435, 'MN': 5581} | women's share 0.332 | women's rate 0.25 | men's rate 0.304
+  B3 {'FP': 436, 'FN': 3548, 'MP': 878, 'MN': 7138} | women's share 0.332 | women's rate 0.109 | men's rate 0.11
+
+epsilon_spent range: 0.098 0.098
+noise multiplier range (same N in every arm): 22.5 22.5
+
+Gap change (DP - non-private) by arm; descriptive 95% intervals
+  Ref mean 0.127 CI (0.116, 0.139) | non-private gap 0.154 | per split [0.115, 0.127, 0.138, 0.134, 0.122]
+  A1 mean 0.082 CI (0.071, 0.092) | non-private gap 0.166 | per split [0.082, 0.085, 0.072, 0.093, 0.075]
+  A2 mean 0.136 CI (0.117, 0.156) | non-private gap 0.146 | per split [0.133, 0.13, 0.164, 0.13, 0.124]
+  B1 mean 0.17 CI (0.125, 0.215) | non-private gap -0.007 | per split [0.139, 0.158, 0.233, 0.154, 0.168]
+  B2 mean 0.16 CI (0.115, 0.205) | non-private gap -0.065 | per split [0.114, 0.155, 0.208, 0.142, 0.182]
+  B3 mean 0.169 CI (0.133, 0.205) | non-private gap -0.165 | per split [0.161, 0.219, 0.16, 0.145, 0.16]
+
+P14 (floor): Ref mean 0.127 -> contrasts interpreted
+
+C1 = A1 - A2: mean -0.055 97.5% CI (-0.089, -0.021) per split [-0.051, -0.045, -0.093, -0.037, -0.049]
+  P15: CONTRADICTED
+
+C2 = B2 - Ref: mean 0.033 97.5% CI (-0.016, 0.081) per split [-0.001, 0.027, 0.07, 0.008, 0.059]
+  P16: INCONCLUSIVE
+
+P17 (descriptive): A1>=Ref>=A2: False | Ref>=B1>=B2: False
