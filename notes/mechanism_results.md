@@ -109,3 +109,48 @@ so a small clipping effect is not excluded.
 Clipping-noise interaction (clipping norm was not varied here); behavior
 at other epsilons, models or datasets; group size versus base rate; why
 noise hurts women's true positives more.
+
+## Part 5: controlled resampling in Adult (exploratory)
+
+Predictions: notes/predictions.md, commit 37069e5, before the script was
+written or run. Script: src/run_resample.py. Output:
+results/resample_output.txt, results/resample_checks.csv.
+Part 5 was run before part 4; part 4 has not been run.
+
+Design: training set resampled to N = 12,000 within sex-by-label cells,
+test set the full natural 30% split, epsilon 0.1 (spent 0.098), noise
+multiplier 22.5 in every arm, 5 splits x 3 seeds. Preprocessing was fitted
+on the full natural training split, rows were drawn without replacement
+once per split and arm, and "natural" rates are each split's own.
+
+Pre-specified results:
+- P14 met: Ref gap change +0.127 (CI 0.116 to 0.139). Not comparable to
+  part 1's +0.067: N is smaller and the noise multiplier is 22.5, not
+  13.75.
+- C1 = A1 - A2 = -0.055 (97.5% CI -0.089 to -0.021), negative in all 5
+  splits. P15 contradicted: fewer women gave a smaller gap change
+  (A1 +0.082), more women a larger one (A2 +0.136).
+- C2 = B2 - Ref = +0.033 (97.5% CI -0.016 to +0.081). P16 inconclusive;
+  the point estimate has the opposite sign to the hypothesis.
+- P17 not met (neither ordering held).
+
+Mean across splits (non-private gap / DP gap / change):
+Ref 0.154 / 0.282 / 0.127    A1 0.166 / 0.247 / 0.082
+A2 0.146 / 0.283 / 0.136     B1 -0.007 / 0.163 / 0.170
+B2 -0.065 / 0.095 / 0.160    B3 -0.165 / 0.004 / 0.169
+
+Limits identified after seeing the results:
+1. The arms change more than group share and base rates: overall class
+   balance moves too (split 1: about 0.275 positive in A1, 0.239 in Ref,
+   0.207 in A2) and so does the number of women's positives. The design
+   cannot separate these.
+2. The non-private gap differs across arms (+0.166 to -0.165), so the
+   pre-specified change metric is not comparable across them.
+
+Post hoc observation (not pre-specified, no intervals, not tested): the DP
+model's own gap is similar across the group-size arms (0.247 to 0.283)
+and falls as women's base rate rises or men's falls (0.282 to 0.004).
+This is consistent with base rates mattering more than group size here,
+but does not establish it.
+
+Not shown: why; anything beyond this model, dataset and epsilon.
