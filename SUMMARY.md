@@ -1,4 +1,4 @@
-# DP-SGD and the gender recall gap on UCI Adult: summary of parts 1 to 3
+# DP-SGD and the gender recall gap on UCI Adult: summary of parts 1 to 3 and 5
 
 ## Question
 Does training with differential privacy (DP-SGD) widen the male-minus-female
@@ -11,8 +11,11 @@ this is a check in a new setting (tabular data, linear model, recall gap).
 Linear classifier on 105 features (48,842 rows), DP-SGD with Opacus
 (delta 1e-5, clipping norm 1.0). Five train/test splits x 3 seeds, each
 private model paired against the non-private model on the same split and
-seed; 95% t-intervals across splits. Part 1's five-split design was set after an exploratory look at one split, where the question arose. Parts 2 and 3 are exploratory follow-ups with predictions committed before running
-(notes/predictions.md).
+seed; 95% t-intervals across splits. Part 1's five-split design was set
+after an exploratory look at one split, where the question arose. Parts 2,
+3 and 5 are exploratory follow-ups with predictions committed before
+running (notes/predictions.md). Part 4 (a second dataset) is pre-registered
+but has not been run; part 5 was run first.
 
 ## Findings
 1. At epsilon 0.1 the gap widens by +0.067 (CI +0.041 to +0.093), in all five
@@ -32,18 +35,32 @@ seed; 95% t-intervals across splits. Part 1's five-split design was set after an
    0.5 and 1.0 times the epsilon-0.1 level, the gap change is +0.001, +0.011,
    +0.032 and +0.067. Clipping alone is not detectably responsible, though
    its interval reaches +0.020.
-
+5. Controlled resampling (training size fixed at 12,000, epsilon 0.1, noise
+   multiplier 22.5 in every arm): the pre-specified group-size hypothesis
+   was contradicted (15% women gave a gap change of +0.082, 50% women
+   +0.136; contrast -0.055, 97.5% CI -0.089 to -0.021), and the base-rate
+   contrast was inconclusive (+0.033, CI -0.016 to +0.081). Post hoc and
+   untested: the DP model's own gap is similar across group-size arms and
+   falls when women's base rate is raised (0.282 for the reference, 0.095
+   at a rate of 0.25) or men's is lowered (0.004).
 ## Limitations
 One dataset, one linear model, one binary sex attribute. The five splits
 overlap (about 30% of any two test sets), so intervals are probably somewhat
-narrow. Epsilon is not matched across the noise arms. Parts 2 and 3 were
-chosen after seeing part 1. The DP guarantee covers training only;
-preprocessing was fitted without privacy.
+narrow. Epsilon is not matched across the noise arms. Parts 2, 3 and 5 were
+chosen after seeing earlier results. The DP guarantee covers training only;
+preprocessing was fitted without privacy. Part 5's arms change overall class
+balance as well as group share, and the non-private gap differs across arms,
+so its change metric is not comparable across arms. Its numbers are not
+comparable to part 1's (smaller training set, larger noise multiplier).
 
 ## Not established
 Why noise hurts women's true positives more. Whether clipping and noise
-interact (clipping norm was not varied in part 3). Whether any of this holds
-on other datasets, models, attributes or epsilons.
+interact (clipping norm was not varied in part 3). Whether group size or
+base rate drives the effect (part 5 does not separate them from class
+balance). Whether any of this holds on other datasets, models, attributes
+or epsilons (part 4 is planned but not run).
 
 ## Reproduce
-See README.md. Scripts: src/run_sweep.py, run_multisplit.py, run_clip.py, analyze.py (part 1 numbers), run_mechanism.py, run_negatives.py, run_scale.py, run_noise.py.
+See README.md. Scripts: src/run_sweep.py, run_multisplit.py, run_clip.py,
+analyze.py (part 1 numbers), run_mechanism.py, run_negatives.py,
+run_scale.py, run_noise.py, run_resample.py.
