@@ -134,3 +134,48 @@ as part 1 (TPR gap at threshold 0.5, male minus female).
   would not isolate it, since the datasets differ in many ways. The
   thresholds (0.04, 0.85) are arbitrary choices, set before running.
   Exploratory.
+
+## Part 5 predictions (controlled resampling in Adult; written before running)
+Note: part 5 runs before part 4. The part 4 predictions above stay as
+committed and part 4 is still to be run.
+
+Design: for each of the 5 splits (same stratified 70/30 splits as part 1),
+the TRAINING set is resampled to N = 12,000 rows by drawing within each
+sex-by-label cell, so that features within a cell are unchanged. The TEST
+set is the full natural 30% split in every arm. Linear model, DP-SGD
+epsilon 0.1, delta 1e-5, clipping norm 1.0, 3 seeds per split. For each
+(split, arm) one resampled training set is drawn with a fixed seed; the
+non-private model is trained on that same resampled set. Gap = TPR gap at
+threshold 0.5, male minus female. Gap change = DP gap - non-private gap,
+averaged over seeds, then across splits.
+
+Arms (women's share of training data / women's positive rate / men's
+positive rate):
+  Ref: natural share (about 33.2%) / 0.110 / 0.304
+  A1: 15% / 0.110 / 0.304      A2: 50% / 0.110 / 0.304
+  B1: natural / 0.20 / 0.304   B2: natural / 0.25 / 0.304
+  B3: natural / 0.110 / 0.110
+Counts are rounded to whole rows. Before any training the script checks
+that every cell requested by every arm is available in all 5 splits, and
+stops if not.
+
+Hypotheses (my guesses; the data may contradict them):
+- P14 (floor check): if the Ref arm's mean gap change is below +0.02, the
+  contrasts below are not interpreted; the result is reported as "no
+  detectable widening at N = 12,000".
+- P15 (group size, primary contrast C1): C1 = (gap change in A1) minus
+  (gap change in A2) is positive, with a 97.5% t-interval across splits
+  that excludes zero. A negative value with an interval excluding zero
+  contradicts the hypothesis.
+- P16 (base rate, primary contrast C2): C2 = (gap change in B2) minus
+  (gap change in Ref) is negative, with a 97.5% interval excluding zero.
+- P17 (descriptive): the mean gap changes order as A1 >= Ref >= A2 and
+  Ref >= B1 >= B2. Reported, not tested; B3 is exploratory with no
+  predicted direction.
+- C1 and C2 are the only pre-specified tests; the 97.5% intervals adjust
+  for two comparisons. Everything else is exploratory. With 5 overlapping
+  splits the intervals are wide, so an interval that includes zero is
+  inconclusive, not evidence of no effect.
+- The Ref arm at N = 12,000 will not necessarily reproduce part 1's
+  +0.067, because the noise per update differs at this size. Contrasts are
+  always against Ref at the same N.
