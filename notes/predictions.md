@@ -90,7 +90,7 @@ Quantity: standard deviation of logits within each group x class cell
 - Thresholds (1.2, 0.8, 0.1) are arbitrary choices, set before running.
   Exploratory.
 
-  ## Part 3 predictions (noise vs clipping; written before running)
+## Part 3 predictions (noise vs clipping; written before running)
 Design: clipping norm 1.0; noise multiplier = k x sigma*, k in {0, 0.25,
 0.5, 1.0}, where sigma* is the multiplier giving epsilon 0.1. 5 splits x
 3 seeds, paired against non-private. Quantity: change in the TPR gap at
@@ -109,4 +109,28 @@ threshold 0.5 (DP - non-private), averaged over seeds, then across the
   0.093). If it does not, the arms are not comparable and nothing else is
   interpreted.
 - Thresholds (0.02, 0.04) are arbitrary choices, set before running.
+  Exploratory.
+
+## Part 4 predictions (second dataset; written before running)
+Data: ACS Income via folktables, California, 2018 1-year person survey,
+default ACSIncome definitions (label: income above $50,000). 10 features,
+categorical ones one-hot encoded with categories under 0.5% of training
+rows grouped into one bucket; AGEP and WKHP numeric; sex kept as a
+feature. Training set subsampled to 34,189 rows to match Adult; test set is
+the full 30% split. Epsilon 0.1, delta 1e-5, clipping norm 1.0, linear
+model, 5 splits x 3 seeds, paired against non-private; same gap definition
+as part 1 (TPR gap at threshold 0.5, male minus female).
+
+- P11 (attenuation): mean gap change is below +0.04 (part 1 on Adult:
+  +0.067). Predicted because women are not a rare, low-base-rate group
+  here (positives: men 46.6%, women 34.9%). At or above +0.04 with the
+  interval excluding zero counts as replication.
+- P12 (direction): women's recall change minus men's is negative in at
+  least 4 of 5 splits.
+- P13 (sanity): the non-private AUC is above 0.85 in all splits. If not,
+  nothing else is interpreted.
+- A replication would suggest the effect is not specific to Adult; an
+  attenuation would be consistent with a group-structure explanation but
+  would not isolate it, since the datasets differ in many ways. The
+  thresholds (0.04, 0.85) are arbitrary choices, set before running.
   Exploratory.
