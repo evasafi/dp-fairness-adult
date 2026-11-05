@@ -83,7 +83,8 @@ order, so the scripts are the reproducible version.
 
 ## Follow-up
 Exploratory mechanism checks, with predictions committed before running,
-are in notes/predictions.md and notes/mechanism_results.md. Summary:
+are in notes/predictions.md and notes/mechanism_results.md; a one-page
+overview is in SUMMARY.md. Summary:
 - At epsilon 0.1, women's true positives shift down much more than men's
   in logit terms; per-group thresholds remove nearly all of the gap
   widening (a diagnostic, since it uses sex at decision time).
@@ -94,6 +95,16 @@ are in notes/predictions.md and notes/mechanism_results.md. Summary:
   the gap change grows with noise (+0.001 at no noise to +0.067 at the
   epsilon 0.1 level), and clipping alone is not detectably responsible,
   though the interval at no noise reaches +0.020.
+- Controlled resampling of the training set (12,000 rows, epsilon 0.1):
+  the pre-specified hypothesis that fewer women gives a larger gap change
+  was contradicted (15% women +0.082, 50% women +0.136), and the base-rate
+  contrast was inconclusive. The arms also change overall class balance,
+  so this does not separate group size from base rate or class balance.
+  Numbers are not comparable to the main results (smaller training set,
+  larger noise multiplier).
+- Part 4 (ACS Income as a second dataset) is pre-registered in
+  notes/predictions.md but has not been run; part 5 was run first.
 - Not shown: any clipping-noise interaction (clipping norm was not varied
-  in this design), other epsilons, models or datasets, or why noise
-  hurts women's true positives more. These checks are exploratory.
+  in part 3), whether group size or base rate drives the effect, other
+  epsilons, models or datasets, or why noise hurts women's true positives
+  more. These checks are exploratory.
