@@ -84,6 +84,8 @@ seeds); other hardware or library versions were not tested.
 
 `notebooks/PrivacyPreservingML.ipynb` is the exploratory record. It was run out of
 order, so the scripts are the reproducible version.
+The notebook was written before the optimizer name was corrected; one
+plot label in it says DP-SGD, but the models are DP-Adam.
 
 ## Follow-up
 Exploratory mechanism checks, with predictions committed before running,
