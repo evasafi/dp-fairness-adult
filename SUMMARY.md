@@ -1,14 +1,14 @@
-# DP-SGD and the gender recall gap on UCI Adult: summary of parts 1 to 3 and 5
+# DP-Adam and the gender recall gap on UCI Adult: summary of parts 1 to 3 and 5
 
 ## Question
-Does training with differential privacy (DP-SGD) widen the male-minus-female
+Does training with differential privacy (DP-Adam) widen the male-minus-female
 recall (true positive rate) gap for an income classifier on UCI Adult, and if
 so, what drives it? This is a small empirical study. The effect itself is
 known (Bagdasaryan et al., 2019: DP hurts underrepresented groups more);
 this is a check in a new setting (tabular data, linear model, recall gap).
 
 ## Design
-Linear classifier on 105 features (48,842 rows), DP-SGD with Opacus
+Linear classifier on 105 features (48,842 rows), DP-Adam with Opacus
 (delta 1e-5, clipping norm 1.0). Five train/test splits x 3 seeds, each
 private model paired against the non-private model on the same split and
 seed; 95% t-intervals across splits. Part 1's five-split design was set
@@ -52,6 +52,9 @@ preprocessing was fitted without privacy. Part 5's arms change overall class
 balance as well as group share, and the non-private gap differs across arms,
 so its change metric is not comparable across arms. Its numbers are not
 comparable to part 1's (smaller training set, larger noise multiplier).
+The private models use Adam as the optimizer (Opacus clipping and noise
+wrapped around Adam), not plain SGD, so results may not carry over to
+DP-SGD and the comparison with Bagdasaryan et al. (2019) is loose.
 
 ## Not established
 Why noise hurts women's true positives more. Whether clipping and noise
