@@ -49,8 +49,10 @@ All numbers are produced by `python src/analyze.py`; see `results/analysis_outpu
 - One dataset, one linear model, one binary sensitive attribute.
 - UCI Adult is a 1994 census extract with a binary sex variable; results may not
   transfer to current data or to non-binary framings.
-- Private runs reuse the non-private learning rate and epochs; only the clipping
-  norm was varied. Other hyperparameters were not tuned.
+- In the main results (parts 1 to 3), private runs reuse the non-private learning
+  rate and epochs; only the clipping norm was varied. Part 6 later tuned the
+  learning rate per optimizer at epsilon 0.1 (DP-Adam's best was 0.01, the value
+  used here). Other hyperparameters were not tuned.
 - The DP guarantee covers only the training loop: imputation, scaling and
   one-hot encoding were fitted on the training data without privacy.
 - Intervals reflect variation across training seeds and splits, not across datasets.
@@ -110,7 +112,19 @@ overview is in SUMMARY.md. Summary:
   larger noise multiplier).
 - Part 4 (ACS Income as a second dataset) is pre-registered in
   notes/predictions.md but has not been run; part 5 was run first.
+- Optimizer comparison at epsilon 0.1 (part 6; learning rates tuned by
+  validation log-loss, not by the gap; notes/part6_results.md). DP-Adam at its
+  tuned learning rate still widens the gap (+0.067). DP-AdamBC, which removes
+  the noise bias from Adam's second-moment estimate, widened it more (+0.101;
+  contrast with DP-Adam +0.035, 97.5% CI +0.017 to +0.052), and DP-SGD with
+  momentum slightly more than DP-Adam (+0.077; contrast +0.010, CI +0.007 to
+  +0.013). Two of three pre-registered predictions failed. DP-AdamBC only
+  trained with a large floor (about 74% of parameter-steps sat at the floor),
+  so it is a partial test of the correction. Scripts: src/tune_part6.py,
+  src/tune_part6_sgdm_ext.py, src/run_part6.py, src/analyze_part6.py.
 - Not shown: any clipping-noise interaction (clipping norm was not varied
-  in part 3), whether group size or base rate drives the effect, other
+  in part 3), whether group size or base rate drives the effect, whether a
+  clean test of the DP-AdamBC correction (one not mostly at its floor) changes
+  the gap, other
   epsilons, models or datasets, or why noise hurts women's true positives
   more. These checks are exploratory.
