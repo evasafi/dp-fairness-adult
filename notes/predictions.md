@@ -235,3 +235,17 @@ What would count against these:
 - P2 fails if the B minus A interval contains 0 or lies above 0, or if B
   diverges for every gamma in the grid (reported as a failure, not dropped).
 - P3 fails if the C minus A interval excludes 0.
+
+## Part 6 selected hyperparameters (recorded before any final run)
+
+Chosen by mean validation log-loss at epsilon 0.1 (split 0, inner 80/20 split, seeds 0-2), never by the gap.
+
+- Arm A, DP-Adam: lr 0.01 (interior optimum; same value as part 1)
+- Arm B, DP-AdamBC: lr 0.003, gamma 1e-4 (gamma 1e-8 was unusable: val log-loss 0.57 to 3.5)
+- Arm C, DP-SGD momentum 0.9: lr 0.03 (grid extended downward once; 0.01 and 0.003 were worse, so the optimum is interior)
+
+Best validation log-loss: A 0.353, B 0.348, C 0.355. Differences of about 0.007 are not ranked.
+
+Known limitations of tuning: split 0 training rows overlap test sets of splits 1-5; tuning used 80% of the split-0 training part, so sigma differs slightly from final runs; preprocessing was fitted on the full split-0 training part.
+
+Exploratory addition made after seeing the tuning results (not pre-registered): a diagnostic for the share of AdamBC parameters whose corrected second moment is above gamma, because only large floors worked.
