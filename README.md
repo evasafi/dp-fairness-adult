@@ -1,10 +1,10 @@
 # Does differential privacy widen group gaps? An empirical check on UCI Adult
 
-A small, reproducible study of how DP-SGD affects a gender gap in recall
+A small, reproducible study of how DP-Adam affects a gender gap in recall
 (true positive rate) for a linear income classifier on UCI Adult.
 
 ## Question
-How does training with differential privacy (DP-SGD) change accuracy and the
+How does training with differential privacy (DP-Adam) change accuracy and the
 male-minus-female true-positive-rate (TPR) gap as the privacy budget epsilon tightens?
 
 ## Setup
@@ -12,7 +12,7 @@ male-minus-female true-positive-rate (TPR) gap as the privacy budget epsilon tig
   Sensitive attribute for evaluation: `sex` (binary). `sex` is also a model feature.
 - Model: one linear layer (105 input features after preprocessing), Adam, lr 0.01,
   10 epochs, batch size 512 for non-private runs.
-- Private runs: DP-SGD with Opacus 1.6.0 (PRV accountant), delta = 1e-5,
+- Private runs: DP-Adam with Opacus 1.6.0 (PRV accountant), delta = 1e-5,
   clipping norm 1.0 unless stated. Poisson sampling at rate 0.0149
   (expected batch about 510), 670 steps.
 - Epsilon values: 0.1, 0.5, 1, 4 (original split only), 8, plus a non-private model.
@@ -39,7 +39,7 @@ All numbers are produced by `python src/analyze.py`; see `results/analysis_outpu
   -0.023, CI -0.039 to -0.007).
 - Original split only (exploratory): the gap widens from 0.146 to 0.248 at epsilon 0.1.
   Clipping without noise raises the matched gap only to about 0.158; with noise, the
-  widening appears at clipping norms 0.1, 1.0 and 5.0 (largest at 5.0). Because DP-SGD
+  widening appears at clipping norms 0.1, 1.0 and 5.0 (largest at 5.0). Because DP-Adam
   noise scales with the clipping bound, these runs do not separate the effect of noise
   from that of clipping, and the mechanism is untested. This was not repeated on other   splits.
 
@@ -61,7 +61,11 @@ All numbers are produced by `python src/analyze.py`; see `results/analysis_outpu
 - Mechanism is not identified: this study does not explain why noise hurts women's
   recall more.
 - Achieved epsilon was 0.958 to 0.999 of the target in all private sweep runs.
-
+- The private models use Adam as the optimizer (Opacus clipping and noise
+  wrapped around Adam), not plain SGD. Results may not carry over to
+  DP-SGD, and the comparison with earlier DP-SGD work (Bagdasaryan et al.,
+  2019) is therefore loose.
+  
 ## Reproduce
 Developed on Windows, CPU only. Notebook exploration ran on Python 3.13.9; the
 scripts were run on Python 3.14.3 with the same library versions and reproduced
