@@ -15,7 +15,7 @@ class AdamBC(Optimizer):
     def __init__(self, params, lr=1e-3, betas=(0.9, 0.999), gamma=1e-8):
         defaults = dict(lr=lr, betas=betas, gamma=gamma)
         super().__init__(params, defaults)
-        self.noise_var = 0.0
+        self.noise_var = 0.0; self.n_above = 0; self.n_total = 0
 
     @torch.no_grad()
     def step(self, closure=None):
@@ -40,6 +40,9 @@ class AdamBC(Optimizer):
                 state["v"].mul_(beta2).addcmul_(g, g, value=1 - beta2)
                 m_hat = state["m"] / (1 - beta1 ** t)
                 v_hat = state["v"] / (1 - beta2 ** t)
-                v_corr = torch.clamp(v_hat - self.noise_var, min=group["gamma"])
+                diff = v_hat - self.noise_var
+                self.n_above += int((diff > group["gamma"]).sum())
+                self.n_total += diff.numel()
+                v_corr = torch.clamp(diff, min=group["gamma"])
                 p.addcdiv_(m_hat, v_corr.sqrt(), value=-group["lr"])
         return loss
