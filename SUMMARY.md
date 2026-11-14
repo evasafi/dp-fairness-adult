@@ -1,4 +1,4 @@
-# DP-Adam and the gender recall gap on UCI Adult: summary of parts 1 to 3 and 5
+# DP-Adam and the gender recall gap on UCI Adult: summary of parts 1 to 3, 5 and 6
 
 ## Question
 Does training with differential privacy (DP-Adam) widen the male-minus-female
@@ -15,7 +15,8 @@ seed; 95% t-intervals across splits. Part 1's five-split design was set
 after an exploratory look at one split, where the question arose. Parts 2,
 3 and 5 are exploratory follow-ups with predictions committed before
 running (notes/predictions.md). Part 4 (a second dataset) is pre-registered
-but has not been run; part 5 was run first.
+but has not been run; part 5 was run first. Part 6 (an optimizer comparison)
+was pre-registered, including tuning grids, before any tuning or final run.
 
 ## Findings
 1. At epsilon 0.1 the gap widens by +0.067 (CI +0.041 to +0.093), in all five
@@ -43,6 +44,16 @@ but has not been run; part 5 was run first.
    untested: the DP model's own gap is similar across group-size arms and
    falls when women's base rate is raised (0.282 for the reference, 0.095
    at a rate of 0.25) or men's is lowered (0.004).
+6. Optimizer comparison at epsilon 0.1 (part 6; learning rates tuned by
+   validation log-loss, not by the gap). DP-Adam at its tuned lr 0.01 (the
+   part 1 setting) still widens the gap by +0.067. DP-AdamBC (Tang et al.,
+   2024) widened it more (+0.101; contrast with DP-Adam +0.035, 97.5% CI
+   +0.017 to +0.052), and DP-SGD with momentum slightly more than DP-Adam
+   (+0.077; contrast +0.010, CI +0.007 to +0.013). Two of three
+   pre-registered predictions failed (notes/part6_results.md). DP-AdamBC
+   needed a large floor to train at all, and about 74% of its
+   parameter-steps sat at the floor, so it is only a partial test of the
+   noise correction.
 ## Limitations
 One dataset, one linear model, one binary sex attribute. The five splits
 overlap (about 30% of any two test sets), so intervals are probably somewhat
@@ -55,15 +66,22 @@ comparable to part 1's (smaller training set, larger noise multiplier).
 The private models use Adam as the optimizer (Opacus clipping and noise
 wrapped around Adam), not plain SGD, so results may not carry over to
 DP-SGD and the comparison with Bagdasaryan et al. (2019) is loose.
+Part 6's arms are not matched on test accuracy, and its tuning split
+overlaps the test sets of splits 1 to 5.
 
 ## Not established
 Why noise hurts women's true positives more. Whether clipping and noise
 interact (clipping norm was not varied in part 3). Whether group size or
 base rate drives the effect (part 5 does not separate them from class
 balance). Whether any of this holds on other datasets, models, attributes
-or epsilons (part 4 is planned but not run).
+or epsilons (part 4 is planned but not run). Whether a clean test of the
+DP-AdamBC noise correction, one that is not mostly at its floor, changes
+the gap. Whether rare features behave like rare classes in the sense of
+the heavy-tail class-imbalance literature: part 6 gives no support for
+this, but it does not refute it.
 
 ## Reproduce
 See README.md. Scripts: src/run_sweep.py, run_multisplit.py, run_clip.py,
 analyze.py (part 1 numbers), run_mechanism.py, run_negatives.py,
-run_scale.py, run_noise.py, run_resample.py.
+run_scale.py, run_noise.py, run_resample.py; part 6: adambc.py (DP-AdamBC),
+tune_part6.py, tune_part6_sgdm_ext.py, run_part6.py, analyze_part6.py.
