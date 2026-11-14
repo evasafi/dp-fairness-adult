@@ -179,3 +179,11 @@ Hypotheses (my guesses; the data may contradict them):
 - The Ref arm at N = 12,000 will not necessarily reproduce part 1's
   +0.067, because the noise per update differs at this size. Contrasts are
   always against Ref at the same N.
+## Correction (2026-11-14): optimizer name
+The sections above call the private training method "DP-SGD". The models
+use Adam (torch.optim.Adam, lr 0.01) with Opacus per-example clipping and
+Gaussian noise added to the gradients, so the method is DP-Adam. The
+predictions, thresholds and designs above are unchanged; only the name is
+corrected. Whether the results carry over to plain DP-SGD has not been
+tested. The README, SUMMARY and source docstrings were corrected in
+commits a243592, b878947 and 1502da0.
