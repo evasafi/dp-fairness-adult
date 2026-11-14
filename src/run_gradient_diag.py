@@ -1,4 +1,4 @@
-"""Gradient-norm diagnostic: which (group, label) cells get clipped in DP-SGD?
+"""Gradient-norm diagnostic: which (group, label) cells get clipped in DP-Adam?
 Linear model + BCE: per-example gradient norm = |p - y| * sqrt(||x||^2 + 1).
 Writes results/gradient_diagnostic.csv"""
 import warnings

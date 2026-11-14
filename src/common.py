@@ -56,7 +56,7 @@ def make_split(X, y, split_seed):
 
 def fit(split, seed, eps=None, clip=1.0, noise_multiplier=None,
         epochs=10, bs=512, lr=0.01):
-    """Non-private if eps and noise_multiplier are None; DP-SGD to a target epsilon
+    """Non-private if eps and noise_multiplier are None; DP-Adam to a target epsilon
     if eps is given; clipping with a fixed noise multiplier if noise_multiplier is given."""
     Xt, yt = split["Xtr"], split["ytr"]
     torch.manual_seed(seed)
