@@ -14,6 +14,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from opacus import PrivacyEngine
+from adambc import AdamBC
 
 DELTA = 1e-5
 
@@ -55,13 +56,20 @@ def make_split(X, y, split_seed):
 
 
 def fit(split, seed, eps=None, clip=1.0, noise_multiplier=None,
-        epochs=10, bs=512, lr=0.01):
+        epochs=10, bs=512, lr=0.01, optimizer="adam", gamma=1e-8):
     """Non-private if eps and noise_multiplier are None; DP-Adam to a target epsilon
     if eps is given; clipping with a fixed noise multiplier if noise_multiplier is given."""
     Xt, yt = split["Xtr"], split["ytr"]
     torch.manual_seed(seed)
     model = nn.Linear(Xt.shape[1], 1)
-    opt = torch.optim.Adam(model.parameters(), lr=lr)
+    if optimizer == "adam":
+        opt = torch.optim.Adam(model.parameters(), lr=lr)
+    elif optimizer == "adambc":
+        opt = AdamBC(model.parameters(), lr=lr, gamma=gamma)
+    elif optimizer == "sgdm":
+        opt = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9)
+    else:
+        raise ValueError(optimizer)
     loader = DataLoader(TensorDataset(Xt, yt), batch_size=bs, shuffle=True)
     pe = None
     if noise_multiplier is not None:
@@ -74,6 +82,9 @@ def fit(split, seed, eps=None, clip=1.0, noise_multiplier=None,
         model, opt, loader = pe.make_private_with_epsilon(
             module=model, optimizer=opt, data_loader=loader,
             target_epsilon=eps, target_delta=DELTA, epochs=epochs, max_grad_norm=clip)
+    if optimizer == "adambc" and pe is not None:
+        opt.original_optimizer.noise_var = (
+            opt.noise_multiplier * opt.max_grad_norm / opt.expected_batch_size) ** 2
     loss_fn = nn.BCEWithLogitsLoss()
     for _ in range(epochs):
         for xb, yb in loader:
