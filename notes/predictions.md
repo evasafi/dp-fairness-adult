@@ -249,3 +249,6 @@ Best validation log-loss: A 0.353, B 0.348, C 0.355. Differences of about 0.007 
 Known limitations of tuning: split 0 training rows overlap test sets of splits 1-5; tuning used 80% of the split-0 training part, so sigma differs slightly from final runs; preprocessing was fitted on the full split-0 training part.
 
 Exploratory addition made after seeing the tuning results (not pre-registered): a diagnostic for the share of AdamBC parameters whose corrected second moment is above gamma, because only large floors worked.
+
+Part 6 outcome (added 2026-11-14, after the final run): P1 held; P2 and P3
+failed by the criteria above. See notes/part6_results.md.
