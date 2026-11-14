@@ -187,3 +187,51 @@ predictions, thresholds and designs above are unchanged; only the name is
 corrected. Whether the results carry over to plain DP-SGD has not been
 tested. The README, SUMMARY and source docstrings were corrected in
 commits a243592, b878947 and 1502da0.
+## Part 6 (written before any tuning or running): does the optimizer matter?
+
+Written 2026-11-14. No part 6 tuning or run has been done.
+
+Why: part 1 found a wider male-minus-female recall gap at epsilon 0.1. The
+private runs use Adam (DP-Adam) at lr 0.01, which was not tuned. Tang,
+Shpilevskiy and Lecuyer (AAAI 2024) argue that at high noise DP-Adam behaves
+like DP-SGD with momentum, because the noise biases Adam's second-moment
+estimate, and propose DP-AdamBC to remove that bias. Tang, Zhiyanov and
+Lecuyer (HiLD 2025) study heavy-tailed class imbalance and DP optimizers.
+Untested idea (mine, not from those papers): rare features, such as those
+that identify women's true positives, play the role of rare classes.
+
+Arms (same noise multiplier, so the same epsilon, in every arm):
+A. DP-Adam (as in parts 1 to 5)
+B. DP-AdamBC (src/adambc.py, written from the paper; matches torch Adam
+   exactly at zero noise, see src/check_adambc.py)
+C. DP-SGD with momentum 0.9
+
+Fixed: linear model, 10 epochs, batch size 512, clipping norm 1.0,
+delta 1e-5, epsilon 0.1, splits 1 to 5, seeds 0 to 2, non-private baseline
+as in part 1.
+
+Tuning (grids fixed now): learning rate per arm on a validation holdout
+(20 percent of the training part of split 0), chosen by validation log-loss,
+never by the gap. A and B: lr in {0.001, 0.003, 0.01, 0.03, 0.1}. C: lr in
+{0.03, 0.1, 0.3, 1, 3}. B also: gamma in {1e-8, 1e-6, 1e-4, 1e-3}. If the
+best value sits at a grid edge, extend the grid by one step and say so.
+Limitation: split 0 rows also appear in the test sets of splits 1 to 5, so
+tuning is not fully separate from testing. Arm A is also reported at lr 0.01
+(the part 1 setting).
+
+Outcome: change in male-minus-female recall gap relative to the non-private
+model (as in part 1). Secondary: women's recall, men's recall, accuracy.
+Contrasts B minus A and C minus A, with 97.5 percent t-intervals across splits.
+
+Predictions (edit before committing so they say what I expect):
+P1. Tuned DP-Adam still shows a positive gap change at epsilon 0.1.
+P2. B has a smaller gap change than A (contrast below 0). Confidence is
+    modest, because at epsilon 0.1 the correction may sit at its floor.
+P3. C is close to A (contrast interval contains 0).
+
+What would count against these:
+- P1 fails if the tuned arm A interval contains 0 (the part 1 effect then
+  depends on the untuned learning rate).
+- P2 fails if the B minus A interval contains 0 or lies above 0, or if B
+  diverges for every gamma in the grid (reported as a failure, not dropped).
+- P3 fails if the C minus A interval excludes 0.
